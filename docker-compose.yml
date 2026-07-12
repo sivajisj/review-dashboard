@@ -1,0 +1,20 @@
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: review_dashboard_db
+    environment:
+      POSTGRES_USER: review_user
+      POSTGRES_PASSWORD: review_pass
+      POSTGRES_DB: review_dashboard
+    ports:
+      - "5432:5432"
+    volumes:
+      - review_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U review_user -d review_dashboard"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  review_pgdata:
